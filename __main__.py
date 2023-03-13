@@ -24,7 +24,8 @@ class Paddle:
         elif pos[2] > self.canvas_width:
             self.x = -self.speed
         elif (
-            pos[0] - self.speed + 1 <= 0 or pos[2] + self.speed - 1 >= self.canvas_width
+            pos[0] - self.speed + 1 <= 0 or pos[2] +
+                self.speed - 1 >= self.canvas_width
         ):  # paddle is exactly on edge of screen
             self.x = 0
 
