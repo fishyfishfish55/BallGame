@@ -7,14 +7,14 @@ from tkinter import Tk, Canvas
 
 class Paddle:
     def __init__(self, _canvas: Canvas, color: str):
-        self.canvas = _canvas
-        self.id = self.canvas.create_rectangle(0, 0, 100, 10, fill=color)
+        self.canvas: Canvas = _canvas
+        self.id: int = self.canvas.create_rectangle(0, 0, 100, 10, fill=color)
         self.canvas.move(self.id, 200, 300)
-        self.x = 0
-        self.speed = 3
-        self.canvas_width = self.canvas.winfo_width()
-        self.canvas.bind_all("<KeyPress-Left>", self.turn_left)
-        self.canvas.bind_all("<KeyPress-Right>", self.turn_right)
+        self.x: int = 0
+        self.speed: int = 3
+        self.canvas_width: int = self.canvas.winfo_width()
+        _ = self.canvas.bind_all("<KeyPress-Left>", self.turn_left)
+        _ = self.canvas.bind_all("<KeyPress-Right>", self.turn_right)
 
     def draw(self):
         self.canvas.move(self.id, self.x, 0)
@@ -29,28 +29,28 @@ class Paddle:
         ):  # paddle is exactly on edge of screen
             self.x = 0
 
-    def turn_left(self, _evt):
+    def turn_left(self, _evt) -> None:
         self.x = -self.speed
 
-    def turn_right(self, _evt):
+    def turn_right(self, _evt) -> None:
         self.x = self.speed
 
 
 class Ball:
     def __init__(self, _canvas: Canvas, paddle: Paddle, color: str):
-        self.canvas = _canvas
-        self.paddle = paddle
-        self.score = 0
-        self.id = _canvas.create_oval(10, 10, 25, 25, fill=color)
+        self.canvas: Canvas = _canvas
+        self.paddle: Paddle = paddle
+        self.score: int = 0
+        self.id: int = _canvas.create_oval(10, 10, 25, 25, fill=color)
         starts = [-3, -2, -1, 1, 2, 3]
         random.shuffle(starts)
-        self.x = starts[0]
-        self.y = -3
-        self.canvas_height = self.canvas.winfo_height()
-        self.canvas_width = self.canvas.winfo_width()
-        self.hit_bottom = False
+        self.x: int = starts[0]
+        self.y: int = -3
+        self.canvas_height: int = self.canvas.winfo_height()
+        self.canvas_width: int = self.canvas.winfo_width()
+        self.hit_bottom: bool = False
 
-    def hit_paddle(self, pos):
+    def hit_paddle(self, pos: list[float]):
         paddle_pos = self.canvas.coords(self.paddle.id)
         if pos[2] >= paddle_pos[0] and pos[0] <= paddle_pos[2]:
             if paddle_pos[1] <= pos[3] <= paddle_pos[3]:
@@ -85,10 +85,10 @@ class Score:
         )
 
     def draw(self):
-        self.canvas.itemconfig(self.id, text=str(self.ball.score))
+        _ = self.canvas.itemconfig(self.id, text=str(self.ball.score))
         if self.ball.hit_bottom:
             self.canvas.move(self.id, 250, 200)
-            self.canvas.itemconfig(
+            _ = self.canvas.itemconfig(
                 self.id, text="Game Over!", font=("comic sans ms", 40)
             )
 
@@ -96,7 +96,7 @@ class Score:
 tk = Tk()
 tk.title("Levi's ball game")
 tk.resizable(False, False)
-tk.wm_attributes("-topmost", 1)
+_ = tk.wm_attributes("-topmost", 1)
 canvas = Canvas(tk, width=500, height=400, bd=0, highlightthickness=0)
 canvas.pack()
 tk.update()
